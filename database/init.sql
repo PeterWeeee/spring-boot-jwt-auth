@@ -24,8 +24,8 @@ BEGIN
 END
 GO
 
--- Cập nhật mật khẩu "123456" được băm bằng BCrypt (Slide 28)
--- $2a$10$PzyZdIIs11SjAaE.vtm8xLOstB9MxHx8kZAqTKm/0ukZYXW9Xoohqm
+-- Mật khẩu chuẩn cho "123456" đã được mã hóa BCrypt chính xác 60 ký tự:
+-- $2a$10$wLRzKeUQsnpepDUSakzTeuxRDnqOi2MB2xuby3LRzF3YxaeDQpFHG
 IF NOT EXISTS (SELECT 1 FROM users WHERE email = 'trungnh@hcmute.edu.vn')
 BEGIN
     INSERT INTO users (full_name, email, images, password, created_at, updated_at)
@@ -33,7 +33,7 @@ BEGIN
         N'Nguyễn Hữu Trung',
         'trungnh@hcmute.edu.vn',
         'u1.jpg',
-        '$2a$10$PzyZdIIs11SjAaE.vtm8xLOstB9MxHx8kZAqTKm/0ukZYXW9Xoohqm',
+        '$2a$10$wLRzKeUQsnpepDUSakzTeuxRDnqOi2MB2xuby3LRzF3YxaeDQpFHG',
         GETDATE(),
         GETDATE()
     );
@@ -41,7 +41,7 @@ END
 ELSE
 BEGIN
     UPDATE users 
-    SET password = '$2a$10$PzyZdIIs11SjAaE.vtm8xLOstB9MxHx8kZAqTKm/0ukZYXW9Xoohqm' 
+    SET password = '$2a$10$wLRzKeUQsnpepDUSakzTeuxRDnqOi2MB2xuby3LRzF3YxaeDQpFHG' 
     WHERE email = 'trungnh@hcmute.edu.vn';
 END
 GO
@@ -53,7 +53,7 @@ BEGIN
         N'Quản Trị Viên',
         'admin@example.com',
         'admin.jpg',
-        '$2a$10$PzyZdIIs11SjAaE.vtm8xLOstB9MxHx8kZAqTKm/0ukZYXW9Xoohqm',
+        '$2a$10$wLRzKeUQsnpepDUSakzTeuxRDnqOi2MB2xuby3LRzF3YxaeDQpFHG',
         GETDATE(),
         GETDATE()
     );
@@ -61,7 +61,7 @@ END
 ELSE
 BEGIN
     UPDATE users 
-    SET password = '$2a$10$PzyZdIIs11SjAaE.vtm8xLOstB9MxHx8kZAqTKm/0ukZYXW9Xoohqm' 
+    SET password = '$2a$10$wLRzKeUQsnpepDUSakzTeuxRDnqOi2MB2xuby3LRzF3YxaeDQpFHG' 
     WHERE email = 'admin@example.com';
 END
 GO
