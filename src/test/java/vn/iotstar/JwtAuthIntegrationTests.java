@@ -129,4 +129,19 @@ class JwtAuthIntegrationTests {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.status").value(401));
     }
+
+    @Test
+    @Order(8)
+    void testLoginWithTeacherAccount() throws Exception {
+        LoginUserModel loginUser = new LoginUserModel();
+        loginUser.setEmail("trungnh@hcmute.edu.vn");
+        loginUser.setPassword("123456");
+
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginUser)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").isString())
+                .andExpect(jsonPath("$.expiresIn").value(3600000L));
+    }
 }
