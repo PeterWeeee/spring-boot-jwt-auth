@@ -1,7 +1,6 @@
 package vn.iotstar.configs;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.security.SignatureException;
+import com.nimbusds.jose.JOSEException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
@@ -9,6 +8,8 @@ import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.text.ParseException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,13 +39,19 @@ public class GlobalExceptionHandler {
             return errorDetail;
         }
 
-        if (exception instanceof SignatureException) {
+        if (exception instanceof JOSEException || (exception.getCause() instanceof JOSEException)) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
             errorDetail.setProperty("description", "The JWT signature is invalid");
             return errorDetail;
         }
 
-        if (exception instanceof ExpiredJwtException) {
+        if (exception instanceof ParseException || (exception.getCause() instanceof ParseException)) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT token is malformed");
+            return errorDetail;
+        }
+
+        if (exception.getMessage() != null && exception.getMessage().toLowerCase().contains("expired")) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
             errorDetail.setProperty("description", "The JWT token has expired");
             return errorDetail;

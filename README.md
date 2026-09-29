@@ -42,5 +42,10 @@ Dự án Demo xác thực và phân quyền bằng JWT trên Spring Boot 3 / Spr
    - Thông tin cá nhân: `http://localhost:8005/user/profile`
 
 ## Các nhánh Git
-- `main`: Yêu cầu 1 - Triển khai hoàn chỉnh bài giảng bằng thư viện JJWT (`io.jsonwebtoken`).
-- `nimbus-jwt`: Yêu cầu 2 - Thay thế thư viện JWT bằng thư viện Nimbus JOSE + JWT (`com.nimbusds:nimbus-jose-jwt`).
+- `main`: Yêu cầu 1 - Triển khai hoàn chỉnh bài giảng bằng thư viện JJWT (`io.jsonwebtoken:jjwt-api:0.12.6`).
+- `nimbus-jwt` (nhánh hiện tại): Yêu cầu 2 - Thay thế hoàn toàn JJWT bằng thư viện Nimbus JOSE + JWT (`com.nimbusds:nimbus-jose-jwt:10.9.1`) cho các thao tác:
+  - Khởi tạo Header JWS với thuật toán HS256 (`JWSAlgorithm.HS256`).
+  - Xây dựng Claims (`JWTClaimsSet.Builder`) bao gồm `subject`, `issueTime`, `expirationTime` và `extraClaims`.
+  - Ký token với MACSigner (`com.nimbusds.jose.crypto.MACSigner`).
+  - Xác thực chữ ký và kiểm tra hạn sử dụng bằng MACVerifier (`com.nimbusds.jose.crypto.MACVerifier`).
+  - Toàn bộ các API, Filter, Controller và View AJAX hoạt động tương thích 100%.
